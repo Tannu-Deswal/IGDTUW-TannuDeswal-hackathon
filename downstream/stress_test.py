@@ -24,6 +24,41 @@ EVENT_SHOCKS = {
     "MACROECONOMIC": {"FINANCIALS": -0.07, "CONSUMER": -0.07, "ENERGY": -0.05, "RATES": -0.04, "CASH": 0.0},
     "OPERATIONAL": {"FINANCIALS": -0.04, "CONSUMER": -0.04, "ENERGY": -0.04, "RATES": 0.0, "CASH": 0.0},
     "LEGAL": {"FINANCIALS": -0.06, "CONSUMER": -0.04, "ENERGY": -0.04, "RATES": 0.0, "CASH": 0.0},
+        "EARNINGS": {
+        "FINANCIALS": -0.07,
+        "CONSUMER": -0.06,
+        "ENERGY": -0.06,
+        "RATES": -0.02,
+        "CASH": 0.0,
+    },
+    "MERGER_ACQUISITION": {
+        "FINANCIALS": -0.06,
+        "CONSUMER": -0.04,
+        "ENERGY": -0.04,
+        "RATES": 0.0,
+        "CASH": 0.0,
+    },
+    "MANAGEMENT": {
+        "FINANCIALS": -0.06,
+        "CONSUMER": -0.03,
+        "ENERGY": -0.03,
+        "RATES": 0.0,
+        "CASH": 0.0,
+    },
+    "PRODUCT": {
+        "FINANCIALS": -0.02,
+        "CONSUMER": -0.06,
+        "ENERGY": -0.03,
+        "RATES": 0.0,
+        "CASH": 0.0,
+    },
+    "MARKET": {
+        "FINANCIALS": -0.08,
+        "CONSUMER": -0.06,
+        "ENERGY": -0.07,
+        "RATES": -0.02,
+        "CASH": 0.0,
+    },
 }
 
 
@@ -41,7 +76,9 @@ def run_stress_test(signals: list[dict[str, Any]], portfolio: list[dict[str, Any
         impact = signal.get("impact", {}).get("score", 1)
         if not isinstance(impact, int) or not 1 <= impact <= 10:
             raise ValueError("Risk signal impact.score must be an integer from 1 to 10")
-        base_shocks = EVENT_SHOCKS.get(event, {})
+        base_shocks = EVENT_SHOCKS.get(event)
+        mapping_status = "mapped" if base_shocks is not None else "unmapped"
+        base_shocks = base_shocks or {}
         # Scale the scenario shock from 0.2x at impact 1 to 1.0x at impact 10.
         multiplier = 0.2 + 0.8 * ((impact - 1) / 9)
         per_holding = []
@@ -57,6 +94,12 @@ def run_stress_test(signals: list[dict[str, Any]], portfolio: list[dict[str, Any
             "portfolio_after": round(after, 2), "absolute_change": round(after - before, 2),
             "change_pct": round((after / before - 1) * 100, 2) if before else 0.0,
             "holdings": per_holding,
-            "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated.",
+            "assumption": (
+                "Illustrative adverse-event sector shocks; not empirically calibrated."
+                if mapping_status == "mapped"
+                else "No sector-shock mapping defined; zero change means unmodelled, not zero risk."
+            ),
+            "mapping_status": mapping_status,
+            "scenario_type": "illustrative_adverse_scenario",
         })
     return {"portfolio_type": "synthetic_demo_portfolio", "currency": "arbitrary units", "portfolio_before": round(before, 2), "scenarios": scenarios}

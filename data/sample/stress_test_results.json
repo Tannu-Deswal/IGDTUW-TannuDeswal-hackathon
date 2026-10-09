@@ -49,7 +49,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "Illustrative adverse-event sector shocks; not empirically calibrated.",
+      "mapping_status": "mapped",
+      "scenario_type": "illustrative_adverse_scenario"
     },
     {
       "signal_id": "sig_3125fc939902",
@@ -57,37 +59,37 @@
       "impact_score": 5,
       "scenario_multiplier": 0.556,
       "portfolio_before": 6000000.0,
-      "portfolio_after": 6000000.0,
-      "absolute_change": 0.0,
-      "change_pct": 0.0,
+      "portfolio_after": 5852777.78,
+      "absolute_change": -147222.22,
+      "change_pct": -2.45,
       "holdings": [
         {
           "asset": "Government Bonds",
           "sector": "RATES",
           "value": 2000000.0,
-          "shock_pct": 0.0,
-          "after_value": 2000000.0
+          "shock_pct": -1.11,
+          "after_value": 1977777.78
         },
         {
           "asset": "Banking Equities",
           "sector": "FINANCIALS",
           "value": 1500000.0,
-          "shock_pct": 0.0,
-          "after_value": 1500000.0
+          "shock_pct": -3.89,
+          "after_value": 1441666.67
         },
         {
           "asset": "Energy Equities",
           "sector": "ENERGY",
           "value": 1000000.0,
-          "shock_pct": 0.0,
-          "after_value": 1000000.0
+          "shock_pct": -3.33,
+          "after_value": 966666.67
         },
         {
           "asset": "Consumer Equities",
           "sector": "CONSUMER",
           "value": 1000000.0,
-          "shock_pct": 0.0,
-          "after_value": 1000000.0
+          "shock_pct": -3.33,
+          "after_value": 966666.67
         },
         {
           "asset": "Cash",
@@ -97,7 +99,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "Illustrative adverse-event sector shocks; not empirically calibrated.",
+      "mapping_status": "mapped",
+      "scenario_type": "illustrative_adverse_scenario"
     },
     {
       "signal_id": "sig_6d17e3d55e6c",
@@ -145,7 +149,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "Illustrative adverse-event sector shocks; not empirically calibrated.",
+      "mapping_status": "mapped",
+      "scenario_type": "illustrative_adverse_scenario"
     },
     {
       "signal_id": "sig_194019098e89",
@@ -153,9 +159,9 @@
       "impact_score": 5,
       "scenario_multiplier": 0.556,
       "portfolio_before": 6000000.0,
-      "portfolio_after": 6000000.0,
-      "absolute_change": 0.0,
-      "change_pct": 0.0,
+      "portfolio_after": 5933333.33,
+      "absolute_change": -66666.67,
+      "change_pct": -1.11,
       "holdings": [
         {
           "asset": "Government Bonds",
@@ -168,22 +174,22 @@
           "asset": "Banking Equities",
           "sector": "FINANCIALS",
           "value": 1500000.0,
-          "shock_pct": 0.0,
-          "after_value": 1500000.0
+          "shock_pct": -1.11,
+          "after_value": 1483333.33
         },
         {
           "asset": "Energy Equities",
           "sector": "ENERGY",
           "value": 1000000.0,
-          "shock_pct": 0.0,
-          "after_value": 1000000.0
+          "shock_pct": -1.67,
+          "after_value": 983333.33
         },
         {
           "asset": "Consumer Equities",
           "sector": "CONSUMER",
           "value": 1000000.0,
-          "shock_pct": 0.0,
-          "after_value": 1000000.0
+          "shock_pct": -3.33,
+          "after_value": 966666.67
         },
         {
           "asset": "Cash",
@@ -193,7 +199,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "Illustrative adverse-event sector shocks; not empirically calibrated.",
+      "mapping_status": "mapped",
+      "scenario_type": "illustrative_adverse_scenario"
     },
     {
       "signal_id": "sig_b5765b10c918",
@@ -241,7 +249,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "Illustrative adverse-event sector shocks; not empirically calibrated.",
+      "mapping_status": "mapped",
+      "scenario_type": "illustrative_adverse_scenario"
     },
     {
       "signal_id": "sig_c7eb77173527",
@@ -289,7 +299,9 @@
           "after_value": 500000.0
         }
       ],
-      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+      "assumption": "No sector-shock mapping defined; zero change means unmodelled, not zero risk.",
+      "mapping_status": "unmapped",
+      "scenario_type": "illustrative_adverse_scenario"
     }
   ]
 }
