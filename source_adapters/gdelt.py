@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from typing import Any
@@ -39,9 +40,20 @@ def fetch_gdelt(query: str = DEFAULT_QUERY, max_records: int = 25, timespan: str
         raise ValueError("max_records must be between 1 and 250")
     params = {"query": query, "mode": "artlist", "format": "json", "maxrecords": max_records, "timespan": timespan, "sort": "datedesc"}
     request = Request(BASE_URL + "?" + urlencode(params), headers={"User-Agent": "AINLPRiskEngine/0.1 (educational prototype)"})
-    with urlopen(request, timeout=timeout) as response:
-        content_type = response.headers.get("Content-Type", "")
-        raw = response.read().decode("utf-8", errors="replace")
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            content_type = response.headers.get("Content-Type", "")
+            raw = response.read().decode("utf-8", errors="replace")
+    except HTTPError as exc:
+        if exc.code == 429:
+            raise RuntimeError(
+                "GDELT rate-limited this request (HTTP 429). Do not retry repeatedly. "
+                "Continue using the deterministic synthetic demo, then retry a smaller query "
+                "after waiting; the database and core engine do not depend on GDELT availability."
+            ) from exc
+        raise RuntimeError(f"GDELT request failed with HTTP {exc.code}; try again later.") from exc
+    except URLError as exc:
+        raise RuntimeError(f"Could not reach GDELT: {exc.reason}. Check network access and retry later.") from exc
     if "html" in content_type.lower() or raw.lstrip().lower().startswith("<!doctype html"):
         raise RuntimeError("GDELT returned an HTML error instead of JSON; check query syntax or retry later.")
     try:

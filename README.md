@@ -30,6 +30,8 @@ flowchart TD
 - `risk_engine/analyzer.py`: deterministic sentiment/event baseline and risk-signal assembly.
 - `risk_engine/scoring.py`: documented weighted impact formula.
 - `risk_engine/pipeline.py`: JSON/JSONL loading, normalization and deduplication.
+- `risk_engine/storage.py`: SQLite persistence for normalized records and risk signals, with indexed summary queries.
+- `persist_demo.py`: replay the synthetic records and persist records/signals to the local database.
 - `data/synthetic/`: invented example records from two simulated source types.
 - `data/sample/`: generated JSON outputs.
 - `docs/impact_methodology.md`: weights, interpretation and evaluation requirements.
@@ -49,6 +51,10 @@ Requires Python 3.10+; the core engine uses only the Python standard library.
 python -m unittest discover -s tests -v
 python run_engine.py
 python run_demo.py
+# Persist records/signals to SQLite and print an impact summary:
+python persist_demo.py
+# Optional: choose a different SQLite path
+python persist_demo.py --db data/runtime/my_risk_engine.db
 # Optional live news ingestion (requires internet access):
 python fetch_gdelt.py --max-records 15 --timespan 1day
 # Optional local social/financial CSV (supply the actual column names):
@@ -66,6 +72,10 @@ Input must be a JSON array or JSONL file. Each record requires `record_id`, `sou
 ## Output contract
 
 Each signal includes a stable signal ID, input record ID, timestamp, source traceability, heuristic entities, sentiment (`score` in [-1,1]), controlled event type, impact (`score` 1–10), component breakdown, weights, and evidence/limitations.
+
+## Database
+
+The prototype uses SQLite through Python’s standard library, so no database server or credentials are needed for the local demo. The default database is created at `data/runtime/risk_engine.db` (ignored by Git). It stores normalized source records and their generated risk signals, with foreign-key traceability and indexes for source, event type, impact and timestamp. Run `python persist_demo.py` to initialize and populate it. This local SQLite connection is the first persistence layer; a hosted PostgreSQL/Supabase connection can be added later if remote multi-user access is required.
 
 ## Dataset and licensing
 
