@@ -1,0 +1,359 @@
+[
+  {
+    "signal_id": "sig_860236923721",
+    "record_id": "syn_news_001",
+    "timestamp": "2026-10-09T08:15:00Z",
+    "source": {
+      "type": "synthetic_news_feed",
+      "source_id": "news-demo-001",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Example Bank",
+        "type": "ORG",
+        "ticker": "EXBK"
+      }
+    ],
+    "sentiment": {
+      "score": -0.925,
+      "label": "negative",
+      "confidence": 0.69,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "CREDIT_EVENT",
+      "confidence": 0.9,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 8,
+      "confidence": 0.35,
+      "normalized_risk": 0.77,
+      "components": {
+        "event_severity": 0.95,
+        "business_consequence": 0.7,
+        "scope": 0.35,
+        "entity_relevance": 1.0,
+        "sentiment_magnitude": 0.925
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Example Bank faces a confirmed debt default after missing a major repayment, raising concerns about liquidity and possible bankruptcy.",
+      "matched_sentiment_phrases": [
+        "bankruptcy",
+        "default"
+      ],
+      "summary": "Rule-based baseline detected credit event; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  },
+  {
+    "signal_id": "sig_3125fc939902",
+    "record_id": "syn_social_001",
+    "timestamp": "2026-10-09T08:35:00Z",
+    "source": {
+      "type": "synthetic_social_feed",
+      "source_id": "social-demo-001",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Example Retail",
+        "type": "ORG",
+        "ticker": "EXRT"
+      }
+    ],
+    "sentiment": {
+      "score": 0.725,
+      "label": "positive",
+      "confidence": 0.9,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "EARNINGS",
+      "confidence": 0.8,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 5,
+      "confidence": 0.35,
+      "normalized_risk": 0.4975,
+      "components": {
+        "event_severity": 0.55,
+        "business_consequence": 0.25,
+        "scope": 0.35,
+        "entity_relevance": 1.0,
+        "sentiment_magnitude": 0.725
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Example Retail reports record profit and strong demand; management raises guidance after beats estimates.",
+      "matched_sentiment_phrases": [
+        "record profit",
+        "beats estimates",
+        "strong demand",
+        "raises guidance"
+      ],
+      "summary": "Rule-based baseline detected earnings; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  },
+  {
+    "signal_id": "sig_6d17e3d55e6c",
+    "record_id": "syn_news_002",
+    "timestamp": "2026-10-09T09:00:00Z",
+    "source": {
+      "type": "synthetic_news_feed",
+      "source_id": "news-demo-002",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Example Payments",
+        "type": "ORG",
+        "ticker": "EXPM"
+      },
+      {
+        "name": "Regulator",
+        "type": "ORG_CANDIDATE",
+        "ticker": null
+      }
+    ],
+    "sentiment": {
+      "score": -0.675,
+      "label": "negative",
+      "confidence": 0.69,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "REGULATORY",
+      "confidence": 0.7,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 7,
+      "confidence": 0.35,
+      "normalized_risk": 0.715,
+      "components": {
+        "event_severity": 0.75,
+        "business_consequence": 0.7,
+        "scope": 0.55,
+        "entity_relevance": 1.0,
+        "sentiment_magnitude": 0.675
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Regulator opens an investigation into Example Payments following a data breach that disrupted customer transactions across multiple regions.",
+      "matched_sentiment_phrases": [
+        "investigation",
+        "data breach"
+      ],
+      "summary": "Rule-based baseline detected regulatory; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  },
+  {
+    "signal_id": "sig_194019098e89",
+    "record_id": "syn_social_002",
+    "timestamp": "2026-10-09T09:20:00Z",
+    "source": {
+      "type": "synthetic_social_feed",
+      "source_id": "social-demo-002",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Example Auto",
+        "type": "ORG",
+        "ticker": "EXAU"
+      },
+      {
+        "name": "Early",
+        "type": "ORG_CANDIDATE",
+        "ticker": null
+      }
+    ],
+    "sentiment": {
+      "score": 0.625,
+      "label": "positive",
+      "confidence": 0.69,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "PRODUCT",
+      "confidence": 0.6,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 5,
+      "confidence": 0.35,
+      "normalized_risk": 0.4175,
+      "components": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.35,
+        "entity_relevance": 1.0,
+        "sentiment_magnitude": 0.625
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Example Auto announces a successful launch of a new product. Early feedback points to strong demand.",
+      "matched_sentiment_phrases": [
+        "strong demand",
+        "successful launch"
+      ],
+      "summary": "Rule-based baseline detected product; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  },
+  {
+    "signal_id": "sig_b5765b10c918",
+    "record_id": "syn_news_003",
+    "timestamp": "2026-10-09T09:45:00Z",
+    "source": {
+      "type": "synthetic_news_feed",
+      "source_id": "news-demo-003",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Example Energy",
+        "type": "ORG",
+        "ticker": "EXEN"
+      }
+    ],
+    "sentiment": {
+      "score": -0.575,
+      "label": "negative",
+      "confidence": 0.69,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "OPERATIONAL",
+      "confidence": 0.7,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 7,
+      "confidence": 0.35,
+      "normalized_risk": 0.6475,
+      "components": {
+        "event_severity": 0.7,
+        "business_consequence": 0.7,
+        "scope": 0.35,
+        "entity_relevance": 1.0,
+        "sentiment_magnitude": 0.575
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Example Energy shares fall after a supply disruption and production outage at a major facility.",
+      "matched_sentiment_phrases": [
+        "outage",
+        "disruption"
+      ],
+      "summary": "Rule-based baseline detected operational; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  },
+  {
+    "signal_id": "sig_c7eb77173527",
+    "record_id": "syn_social_003",
+    "timestamp": "2026-10-09T10:10:00Z",
+    "source": {
+      "type": "synthetic_social_feed",
+      "source_id": "social-demo-003",
+      "url": null
+    },
+    "entities": [
+      {
+        "name": "Market",
+        "type": "ORG_CANDIDATE",
+        "ticker": null
+      }
+    ],
+    "sentiment": {
+      "score": 0.0,
+      "label": "neutral",
+      "confidence": 0.25,
+      "method": "phrase_lexicon_baseline"
+    },
+    "event": {
+      "type": "OTHER",
+      "confidence": 0.25,
+      "method": "keyword_taxonomy_baseline"
+    },
+    "impact": {
+      "score": 3,
+      "confidence": 0.35,
+      "normalized_risk": 0.26,
+      "components": {
+        "event_severity": 0.25,
+        "business_consequence": 0.25,
+        "scope": 0.35,
+        "entity_relevance": 0.4,
+        "sentiment_magnitude": 0.0
+      },
+      "weights": {
+        "event_severity": 0.35,
+        "business_consequence": 0.25,
+        "scope": 0.2,
+        "entity_relevance": 0.1,
+        "sentiment_magnitude": 0.1
+      },
+      "method": "expert_weighted_heuristic_baseline"
+    },
+    "evidence": {
+      "text_span": "Market commentary remains mixed today with no material company announcement.",
+      "matched_sentiment_phrases": [],
+      "summary": "Rule-based baseline detected other; impact estimate is provisional.",
+      "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."
+    },
+    "methodology_version": "baseline-1.0"
+  }
+]

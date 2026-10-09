@@ -1,0 +1,21 @@
+digraph RiskEngine {
+  graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.32", ranksep="0.48", label="AI/NLP Risk Engine — Prototype Architecture", labelloc=t, fontsize=20, fontname="Arial"];
+  node [shape=box, style="rounded,filled", fillcolor="#F4F7FB", color="#355070", fontname="Arial", fontsize=10, margin="0.16,0.10"];
+  edge [color="#53657D", arrowsize=0.7, fontname="Arial", fontsize=9];
+  news [label="News-like source\n(real adapter planned)"];
+  social [label="Social-like source\n(real adapter planned)"];
+  norm [label="Source adapters + normalization\nNormalizedRecord contract"];
+  validate [label="Schema + timestamp validation"];
+  dedupe [label="Deduplication\n(source, source ID)"];
+  sent [label="Sentiment baseline\nphrase lexicon → score [-1, 1]"];
+  event [label="Event taxonomy baseline\ncontrolled categories"];
+  impact [label="Impact scoring\nweighted, explainable heuristic"];
+  signal [label="Validated RiskSignal JSON\ntraceability + evidence + limitations"];
+  stress [label="Downstream synthetic portfolio\nstress-test scenarios"];
+  output [label="JSON artifacts + tests\nreplayable demonstration"];
+  news -> norm; social -> norm; norm -> validate -> dedupe;
+  dedupe -> sent; dedupe -> event; sent -> impact; event -> impact;
+  impact -> signal -> stress -> output;
+  note [shape=note, fillcolor="#FFF6DD", color="#B88728", label="Current prototype: synthetic inputs only.\nNLP and impact mappings are heuristic,\nnot trained/calibrated or investment advice.", fontsize=9];
+  note -> signal [style=dashed, arrowhead=none, color="#B88728"];
+}

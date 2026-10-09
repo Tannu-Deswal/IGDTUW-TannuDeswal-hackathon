@@ -1,0 +1,295 @@
+{
+  "portfolio_type": "synthetic_demo_portfolio",
+  "currency": "arbitrary units",
+  "portfolio_before": 6000000.0,
+  "scenarios": [
+    {
+      "signal_id": "sig_860236923721",
+      "event_type": "CREDIT_EVENT",
+      "impact_score": 8,
+      "scenario_multiplier": 0.822,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 5827333.33,
+      "absolute_change": -172666.67,
+      "change_pct": -2.88,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 1.64,
+          "after_value": 2032888.89
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": -9.87,
+          "after_value": 1352000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": -2.47,
+          "after_value": 975333.33
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": -3.29,
+          "after_value": 967111.11
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    },
+    {
+      "signal_id": "sig_3125fc939902",
+      "event_type": "EARNINGS",
+      "impact_score": 5,
+      "scenario_multiplier": 0.556,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 6000000.0,
+      "absolute_change": 0.0,
+      "change_pct": 0.0,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 0.0,
+          "after_value": 2000000.0
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": 0.0,
+          "after_value": 1500000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    },
+    {
+      "signal_id": "sig_6d17e3d55e6c",
+      "event_type": "REGULATORY",
+      "impact_score": 7,
+      "scenario_multiplier": 0.733,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 5868000.0,
+      "absolute_change": -132000.0,
+      "change_pct": -2.2,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 0.0,
+          "after_value": 2000000.0
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": -5.87,
+          "after_value": 1412000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": -2.2,
+          "after_value": 978000.0
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": -2.2,
+          "after_value": 978000.0
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    },
+    {
+      "signal_id": "sig_194019098e89",
+      "event_type": "PRODUCT",
+      "impact_score": 5,
+      "scenario_multiplier": 0.556,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 6000000.0,
+      "absolute_change": 0.0,
+      "change_pct": 0.0,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 0.0,
+          "after_value": 2000000.0
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": 0.0,
+          "after_value": 1500000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    },
+    {
+      "signal_id": "sig_b5765b10c918",
+      "event_type": "OPERATIONAL",
+      "impact_score": 7,
+      "scenario_multiplier": 0.733,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 5897333.33,
+      "absolute_change": -102666.67,
+      "change_pct": -1.71,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 0.0,
+          "after_value": 2000000.0
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": -2.93,
+          "after_value": 1456000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": -2.93,
+          "after_value": 970666.67
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": -2.93,
+          "after_value": 970666.67
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    },
+    {
+      "signal_id": "sig_c7eb77173527",
+      "event_type": "OTHER",
+      "impact_score": 3,
+      "scenario_multiplier": 0.378,
+      "portfolio_before": 6000000.0,
+      "portfolio_after": 6000000.0,
+      "absolute_change": 0.0,
+      "change_pct": 0.0,
+      "holdings": [
+        {
+          "asset": "Government Bonds",
+          "sector": "RATES",
+          "value": 2000000.0,
+          "shock_pct": 0.0,
+          "after_value": 2000000.0
+        },
+        {
+          "asset": "Banking Equities",
+          "sector": "FINANCIALS",
+          "value": 1500000.0,
+          "shock_pct": 0.0,
+          "after_value": 1500000.0
+        },
+        {
+          "asset": "Energy Equities",
+          "sector": "ENERGY",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Consumer Equities",
+          "sector": "CONSUMER",
+          "value": 1000000.0,
+          "shock_pct": 0.0,
+          "after_value": 1000000.0
+        },
+        {
+          "asset": "Cash",
+          "sector": "CASH",
+          "value": 500000.0,
+          "shock_pct": 0.0,
+          "after_value": 500000.0
+        }
+      ],
+      "assumption": "Synthetic event-to-sector shocks; illustrative only, not empirically calibrated."
+    }
+  ]
+}

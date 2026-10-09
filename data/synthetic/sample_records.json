@@ -1,0 +1,56 @@
+[
+  {
+    "record_id": "syn_news_001",
+    "source": "synthetic_news_feed",
+    "source_id": "news-demo-001",
+    "published_at": "2026-10-09T08:15:00Z",
+    "text": "Example Bank faces a confirmed debt default after missing a major repayment, raising concerns about liquidity and possible bankruptcy.",
+    "source_url": null,
+    "metadata": {"company": "Example Bank", "ticker": "EXBK", "synthetic": true}
+  },
+  {
+    "record_id": "syn_social_001",
+    "source": "synthetic_social_feed",
+    "source_id": "social-demo-001",
+    "published_at": "2026-10-09T08:35:00Z",
+    "text": "Example Retail reports record profit and strong demand; management raises guidance after beats estimates.",
+    "source_url": null,
+    "metadata": {"company": "Example Retail", "ticker": "EXRT", "synthetic": true}
+  },
+  {
+    "record_id": "syn_news_002",
+    "source": "synthetic_news_feed",
+    "source_id": "news-demo-002",
+    "published_at": "2026-10-09T09:00:00Z",
+    "text": "Regulator opens an investigation into Example Payments following a data breach that disrupted customer transactions across multiple regions.",
+    "source_url": null,
+    "metadata": {"company": "Example Payments", "ticker": "EXPM", "synthetic": true}
+  },
+  {
+    "record_id": "syn_social_002",
+    "source": "synthetic_social_feed",
+    "source_id": "social-demo-002",
+    "published_at": "2026-10-09T09:20:00Z",
+    "text": "Example Auto announces a successful launch of a new product. Early feedback points to strong demand.",
+    "source_url": null,
+    "metadata": {"company": "Example Auto", "ticker": "EXAU", "synthetic": true}
+  },
+  {
+    "record_id": "syn_news_003",
+    "source": "synthetic_news_feed",
+    "source_id": "news-demo-003",
+    "published_at": "2026-10-09T09:45:00Z",
+    "text": "Example Energy shares fall after a supply disruption and production outage at a major facility.",
+    "source_url": null,
+    "metadata": {"company": "Example Energy", "ticker": "EXEN", "synthetic": true}
+  },
+  {
+    "record_id": "syn_social_003",
+    "source": "synthetic_social_feed",
+    "source_id": "social-demo-003",
+    "published_at": "2026-10-09T10:10:00Z",
+    "text": "Market commentary remains mixed today with no material company announcement.",
+    "source_url": null,
+    "metadata": {"synthetic": true}
+  }
+]
