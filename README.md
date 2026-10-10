@@ -1,8 +1,10 @@
 # AI/NLP Risk Engine
 
-An explainable prototype that normalizes financial text from multiple source types and emits structured risk signals for downstream analysis. The repository currently includes a deterministic, rule-based baseline and synthetic replay fixtures so the end-to-end path can be tested without API credentials.
+### S&P Global & Crisil Campus Hackathon 2026
 
-> \*\*Prototype limitation:\*\* sentiment and event classification are phrase/keyword heuristics, not a trained financial NLP model. Impact is an expert-weighted heuristic, not a learned or empirically validated prediction. Confidence fields are heuristic indicators, not calibrated probabilities. Do not use for trading or investment decisions.
+An end-to-end financial risk analysis prototype that converts unstructured text into explainable, structured risk signals and connects them to portfolio stress testing.
+
+> **Prototype limitations:** Sentiment and event classification use deterministic phrase and keyword heuristics, not a trained financial NLP model. Impact scores use a weighted heuristic and are not empirically calibrated predictions. Confidence fields are heuristic indicators, not calibrated probabilities. Portfolio shocks are illustrative assumptions. This prototype is not intended for trading or investment decisions.
 
 ## Problem and approach
 
@@ -12,35 +14,33 @@ Unstructured financial text is difficult to compare across channels. This protot
 
 ```mermaid
 flowchart TD
-  A\[News-like source] --> C\[Source adapters / normalized records]
-  B\[Social-like source] --> C
-  C --> D\[Timestamp and schema validation]
-  D --> E\[Deduplication]
-  E --> F\[Sentiment baseline]
-  E --> G\[Event taxonomy baseline]
-  F --> H\[Impact scoring]
-  G --> H
-  H --> I\[Validated RiskSignal JSON]
-  I --> J\[Downstream risk dashboard / scenario module]
+    A["Financial Text Sources"] --> B["Normalization and Validation"]
+    B --> C["Deduplication"]
+    C --> D["Sentiment Analysis"]
+    C --> E["Event Classification"]
+    D --> F["Impact Scoring"]
+    E --> F
+    F --> G["Validated RiskSignal JSON"]
+    G --> H["Portfolio Stress Testing"]
 ```
 
 ## Repository layout
 
-* `risk\_engine/schema.py`: validated normalized-input and risk-output contracts.
-* `risk\_engine/analyzer.py`: deterministic sentiment/event baseline and risk-signal assembly.
-* `risk\_engine/scoring.py`: documented weighted impact formula.
-* `risk\_engine/pipeline.py`: JSON/JSONL loading, normalization and deduplication.
-* `risk\_engine/storage.py`: SQLite persistence for normalized records and risk signals, with indexed summary queries.
-* `persist\_demo.py`: replay the synthetic records and persist records/signals to the local database.
+* `risk_engine/schema.py`: validated normalized-input and risk-output contracts.
+* `risk_engine/analyzer.py`: deterministic sentiment/event baseline and risk-signal assembly.
+* `risk_engine/scoring.py`: documented weighted impact formula.
+* `risk_engine/pipeline.py`: JSON/JSONL loading, normalization and deduplication.
+* `risk_engine/storage.py`: SQLite persistence for normalized records and risk signals, with indexed summary queries.
+* `persist_demo.py`: replay the synthetic records and persist records/signals to the local database.
 * `data/synthetic/`: invented example records from two simulated source types.
 * `data/sample/`: generated JSON outputs.
-* `docs/impact\_methodology.md`: weights, interpretation and evaluation requirements.
-* `docs/data\_sources.md`: source candidates and data visibility rules.
-* `downstream/stress\_test.py`: synthetic portfolio stress scenarios driven by risk signals.
-* `run\_demo.py`: end-to-end synthetic replay and downstream stress-test run.
-* `source\_adapters/gdelt.py`: live GDELT DOC API headline adapter.
-* `source\_adapters/csv\_text.py`: adapter for a local financial/social-text CSV.
-* `fetch\_gdelt.py` / `analyze\_csv.py`: source ingestion entry points.
+* `docs/impact_methodology.md`: weights, interpretation and evaluation requirements.
+* `docs/data_sources.md`: source candidates and data visibility rules.
+* `downstream/stress_test.py`: synthetic portfolio stress scenarios driven by risk signals.
+* `run_demo.py`: end-to-end synthetic replay and downstream stress-test run.
+* `source_adapters/gdelt.py`: live GDELT DOC API headline adapter.
+* `source_adapters/csv_text.py`: adapter for a local financial/social-text CSV.
+* `fetch_gdelt.py` / `analyze_csv.py`: source ingestion entry points.
 * `tests/`: contract, scoring, classification, deduplication and stress-module tests.
 
 ## Quickstart
@@ -49,25 +49,29 @@ Requires Python 3.10+; the core engine uses only the Python standard library.
 
 ```bash
 python -m unittest discover -s tests -v
-python run\_engine.py
-python run\_demo.py
+python run_engine.py
+python run_demo.py
+
 # Persist records/signals to SQLite and print an impact summary:
-python persist\_demo.py
+python persist_demo.py
+
 # Optional: choose a different SQLite path
-python persist\_demo.py --db data/runtime/my\_risk\_engine.db
+python persist_demo.py --db data/runtime/my_risk_engine.db
+
 # Optional live news ingestion (requires internet access):
-python fetch\_gdelt.py --max-records 15 --timespan 1day
-# Optional local social/financial CSV (supply the actual column names):
-python analyze\_csv.py path/to/your\_dataset.csv --text-column text --timestamp-column created\_at --id-column id --ticker-column ticker
+python fetch_gdelt.py --max-records 15 --timespan 1day
+
+# Optional local CSV input (replace the example path and column names):
+python analyze_csv.py path/to/your_dataset.csv --text-column text --timestamp-column created_at --id-column id --ticker-column ticker
 ```
 
 To use another input file:
 
 ```bash
-python run\_engine.py --input path/to/records.json --output data/sample/my\_signals.json
+python run_engine.py --input path/to/records.json --output data/sample/my_signals.json
 ```
 
-Input must be a JSON array or JSONL file. Each record requires `record\_id`, `source`, `published\_at` (ISO-8601), and `text`. Optional fields: `source\_id`, `source\_url`, `metadata`.
+Input must be a JSON array or JSONL file. Each record requires `record_id`, `source`, `published_at` (ISO-8601), and `text`. Optional fields: `source_id`, `source_url`, and `metadata`.
 
 ### Interactive dashboard
 
@@ -89,6 +93,15 @@ The dashboard supports interactive headline analysis, RiskSignal JSON export, sy
 
 The current analyzer uses deterministic keyword and phrase rules. Impact scores and portfolio shocks are illustrative heuristics, not calibrated financial predictions.
 
+## Key Results
+
+- **End-to-end pipeline:** Processes synthetic financial-text records into structured risk signals and passes them to the downstream stress-testing module.
+- **Structured outputs:** Includes sentiment, event classification, impact scoring, evidence, and source traceability in the risk-signal contract.
+- **Persistence:** Stores normalized records and generated signals in SQLite for local inspection and querying.
+- **Automated tests:** The project includes tests for validation, scoring, classification, deduplication, and stress-test behavior. See the Evaluation section for the scope of these tests.
+- **Interactive demo:** Supports manual text analysis, JSON export, bundled sample-signal inspection, and illustrative portfolio stress testing.
+
+
 ## Output contract
 
 Each signal includes a stable signal ID, input record ID, timestamp, source traceability, heuristic entities, sentiment (`score` in \[-1,1]), controlled event type, impact (`score` 1–10), component breakdown, weights, and evidence/limitations.
@@ -103,7 +116,15 @@ Bundled demo records are synthetic and clearly labelled. A GDELT DOC API headlin
 
 ## Evaluation and results
 
-The current automated tests check expected behavior on controlled fixtures and invalid inputs; they do not establish real-world model accuracy. Do not present synthetic-fixture test success as model performance. Before making quality claims, evaluate on a separate human-labelled dataset and report sample size, label definitions and suitable metrics.
+The automated test suite checks input validation, sentiment bounds, event classification, impact scoring, deduplication, persistence, and downstream stress-test behavior on controlled examples.
+
+Run the tests locally:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Passing tests demonstrate expected software behavior on the tested cases; they do not establish real-world NLP accuracy or financial predictive performance. The current baseline has not been validated against a separate human-labelled financial-text benchmark. Impact weights and portfolio shocks are illustrative assumptions, not empirically calibrated estimates.
 
 ## Downstream stress-test demonstration
 
@@ -113,5 +134,7 @@ The current automated tests check expected behavior on controlled fixtures and i
 
 * Candidate: Tannu Deswal
 * Hackathon: S\&P Global \& Crisil Campus Hackathon 2026
-* Demo video: https://youtu.be/s0adAc4fuoQ
-
+* Demo video: [Watch Demo Video](https://youtu.be/s0adAc4fuoQ)
+* Streamlit app: [Open Live Dashboard](https://hackathon-tannu-app.streamlit.app/)
+* Presentation: docs/presentation.pdf* Presentation: [View Presentation](docs/presentation.pdf)
+* Architecture: docs/architecture.png* Architecture: [View Architecture](docs/architecture.png)
