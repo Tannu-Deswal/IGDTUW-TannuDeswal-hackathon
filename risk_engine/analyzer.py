@@ -75,17 +75,81 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
     sentiment_conf = min(0.90, 0.45 + 0.12 * len(values)) if values else 0.25
     label = sentiment_label(sentiment)
 
+    
     low = text.lower()
-    event_matches = [(event, phrase) for event, phrases in EVENT_RULES.items() for phrase in phrases if phrase in low]
+
+    
+    def phrase_status(phrase: str) -> str:
+        """Detect simple negation or uncertainty near a matched phrase."""
+        match = re.search(re.escape(phrase), low, re.IGNORECASE)
+        if not match:
+            return "AFFIRMED"
+
+        prefix = low[max(0, match.start() - 100):match.start()]
+
+        # Check the full local context for common negation constructions.
+        negation_patterns = [
+            r"\bno\b(?:\W+\w+){0,4}\W*$",
+            r"\bnot\b(?:\W+\w+){0,4}\W*$",
+            r"\bwithout\b(?:\W+\w+){0,4}\W*$",
+            r"\bnever\b(?:\W+\w+){0,4}\W*$",
+            r"\bno\s+(?:evidence|indication|sign)\s+of\b",
+        ]
+
+        for pattern in negation_patterns:
+            if re.search(pattern, prefix):
+                return "NEGATED"
+    
+        uncertainty_pattern = (
+            r"\b(may|might|could|possibly|potentially|possible|potential|"
+            r"alleged|allegedly)\b(?:\W+\w+){0,5}\W*$"
+        )
+        if re.search(uncertainty_pattern, prefix):
+            return "UNCERTAIN"
+
+        return "AFFIRMED"
+
+
+
+    event_matches = [
+        (event, phrase, phrase_status(phrase))
+        for event, phrases in EVENT_RULES.items()
+        for phrase in phrases
+        if phrase in low
+    ]
+
     if event_matches:
-        # Choose the event category with most matched phrases; stable insertion order breaks ties.
+        # Prefer events that are not explicitly negated. Keep uncertainty visible.
+        
+        # Select the event category using all matched phrases.
+        # Negation changes event status, not the category being discussed.
         counts: dict[str, int] = {}
-        for event, _ in event_matches:
+        for event, _, _ in event_matches:
             counts[event] = counts.get(event, 0) + 1
+
         event_type = max(counts, key=counts.get)
+
+        selected_statuses = [
+            status for event, _, status in event_matches
+            if event == event_type
+        ]
+
+        if all(status == "NEGATED" for status in selected_statuses):
+            event_status = "NEGATED"
+        elif "UNCERTAIN" in selected_statuses:
+            event_status = "UNCERTAIN"
+        else:
+            event_status = "AFFIRMED"
+
         event_conf = min(0.90, 0.5 + 0.1 * counts[event_type])
+
+        if event_status == "NEGATED":
+            event_conf = min(event_conf, 0.50)
+        elif event_status == "UNCERTAIN":
+            event_conf = min(event_conf, 0.65)
     else:
-        event_type, event_conf = "OTHER", 0.25
+        event_type, event_conf, event_status = "OTHER", 0.25, "UNKNOWN"
+
 
     severity_map = {
         "CREDIT_EVENT": 0.95, "GEOPOLITICAL": 0.80, "REGULATORY": 0.75,
@@ -94,7 +158,22 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
         "PRODUCT": 0.35, "MARKET": 0.55, "OTHER": 0.25,
     }
     severity = severity_map[event_type]
-    consequence = min(1.0, 0.25 + 0.15 * len(neg) + (0.15 if event_type in {"CREDIT_EVENT", "REGULATORY", "OPERATIONAL", "GEOPOLITICAL"} else 0))
+    
+    if event_status == "NEGATED":
+        consequence = 0.10
+    elif event_status == "UNCERTAIN":
+        consequence = 0.30 + (0.10 if event_type in {
+            "CREDIT_EVENT", "REGULATORY", "OPERATIONAL", "GEOPOLITICAL"
+        } else 0.0)
+    else:
+        consequence = min(
+            1.0,
+            0.25 + 0.15 * len(neg)
+            + (0.15 if event_type in {
+                "CREDIT_EVENT", "REGULATORY", "OPERATIONAL", "GEOPOLITICAL"
+            } else 0)
+        )
+
     scope = 0.75 if any(w in low for w in ["industry-wide", "systemic", "global", "across all markets"]) else 0.55 if any(w in low for w in ["company-wide", "nationwide", "multiple regions"]) else 0.35
     metadata = record.metadata if isinstance(record.metadata, dict) else {}
     entity_relevance = 1.0 if metadata.get("company") or metadata.get("ticker") else 0.4
@@ -113,7 +192,12 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
         source={"type": record.source, "source_id": record.source_id, "url": record.source_url},
         entities=_entity_mentions(text, metadata),
         sentiment={"score": sentiment, "label": label, "confidence": round(sentiment_conf, 2), "method": "phrase_lexicon_baseline"},
-        event={"type": event_type, "confidence": round(event_conf, 2), "method": "keyword_taxonomy_baseline"},
+        event={
+        "type": event_type,
+        "status": event_status,
+        "confidence": round(event_conf, 2),
+        "method": "keyword_taxonomy_baseline",
+        },
         impact={"score": impact_result.score, "confidence": 0.35, "normalized_risk": impact_result.normalized_risk,
                 "components": impact_result.components, "weights": impact_result.weights,
                 "method": "expert_weighted_heuristic_baseline"},

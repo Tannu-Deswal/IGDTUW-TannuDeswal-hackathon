@@ -32,6 +32,43 @@ class TestAnalyzer(unittest.TestCase):
         base = {"record_id":"r1", "source":"synthetic", "source_id":"same", "published_at":"2026-10-09T10:00:00Z", "text":"Company reports profit."}
         duplicate = {**base, "record_id":"r2"}
         self.assertEqual(len(analyze_items([base, duplicate])), 1)
+        
+    
+    def test_negated_regulatory_event(self):
+        record = NormalizedRecord(
+            "r_negated", "synthetic_news", "2026-10-09T10:00:00Z",
+            "Acme Corporation reported record profits and strong revenue growth, "
+            "with no regulatory investigation or threat to its operations."
+        )
+        signal = analyze_record(record)
+
+        # A negated investigation should not be treated as an active regulatory threat.
+        self.assertEqual(signal.event["type"], "REGULATORY")
+        self.assertEqual(signal.event["status"], "NEGATED")
+
+    def test_affirmed_regulatory_event(self):
+        record = NormalizedRecord(
+            "r_affirmed", "synthetic_news", "2026-10-09T10:00:00Z",
+            "Acme Corporation faces a regulatory investigation that threatens operations."
+        )
+        signal = analyze_record(record)
+        self.assertEqual(signal.event["status"], "AFFIRMED")
+
+        self.assertEqual(signal.event["type"], "REGULATORY")
+        self.assertGreaterEqual(signal.impact["score"], 6)
+
+    def test_uncertain_regulatory_event(self):
+        record = NormalizedRecord(
+            "r_uncertain", "synthetic_news", "2026-10-09T10:00:00Z",
+            "Acme Corporation may face a regulatory investigation."
+        )
+        signal = analyze_record(record)
+        self.assertEqual(signal.event["status"], "UNCERTAIN")
+
+        self.assertEqual(signal.event["type"], "REGULATORY")
+        # Uncertainty should be handled explicitly in the implementation.
+        self.assertLess(signal.event["confidence"], 0.8)
+
 
 if __name__ == "__main__":
     unittest.main()
