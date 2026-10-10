@@ -110,7 +110,12 @@ def _entity_mentions(text: str, metadata: dict[str, Any]) -> list[dict[str, Any]
     # Conservative surface-form extraction for company-like names; explicitly heuristic.
     for match in re.finditer(r"\b[A-Z][A-Za-z&.-]*(?:\s+[A-Z][A-Za-z&.-]*){0,2}\b", text):
         name = match.group(0).strip()
-        if name.lower() not in {"the", "a", "an", "on", "in", "after", "following", "company", "shares"} and not any(e["name"] == name for e in entities):
+        if name.lower() not in {
+            "the", "a", "an", "on", "in", "after", "following",
+            "company", "shares", "no", "not", "never", "without",
+            "tuesday", "monday", "wednesday", "thursday", "friday",
+            "saturday", "sunday",
+        } and not any(e["name"] == name for e in entities):
             entities.append({"name": name, "type": "ORG_CANDIDATE", "ticker": None})
         if len(entities) >= 5:
             break

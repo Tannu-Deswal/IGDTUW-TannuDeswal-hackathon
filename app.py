@@ -73,7 +73,15 @@ with tab_analyze:
         impact = signal["impact"]
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Sentiment", sentiment["label"].title(), f'{sentiment["score"]:+.3f}')
-        c2.metric("Event type", event["type"].replace("_", " ").title())
+        
+        c2.metric(
+            "Event type",
+            event["type"].replace("_", " ").title(),
+            help="The event category detected by the rule-based analyzer.",
+            )
+        status = event.get("status", "UNKNOWN")
+        st.caption(f"Event status: {status.title()}")
+
         c3.metric("Impact score", f'{impact["score"]}/10')
         c4.metric("Heuristic confidence", f'{event["confidence"]:.0%}', help="Evidence indicator, not a calibrated probability.")
         st.markdown("**Evidence / input text**")
