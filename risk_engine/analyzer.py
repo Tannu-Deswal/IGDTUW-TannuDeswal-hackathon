@@ -39,18 +39,35 @@ EVENT_RULES = {
 }
 
 
-
 def _phrase_is_negated(text: str, phrase: str) -> bool:
-    """Detect simple negation immediately before a sentiment phrase."""
+    """Detect nearby negation without carrying it across clauses."""
     low = text.lower()
 
-    for match in re.finditer(r"\b" + re.escape(phrase) + r"\b", low):
-        prefix = low[max(0, match.start() - 100):match.start()]
+    words = phrase.split()
+    pattern = r"\b" + r"\s+".join(
+        re.escape(word) for word in words[:-1]
+    )
 
-        # A negation cue must occur shortly before this specific phrase.
-        if re.search(
-            r"\b(no|not|never|without|neither)\b(?:\W+\w+){0,5}\W*$",
+    if len(words) > 1:
+        pattern += r"\s+"
+
+    pattern += re.escape(words[-1]) + r"(?:s|es)?\b"
+
+    for match in re.finditer(pattern, low):
+        # Inspect only the nearby context before this phrase.
+        prefix = low[max(0, match.start() - 50):match.start()]
+
+        # Keep only the text after the most recent clause boundary.
+        clauses = re.split(
+            r"[,;.!?]|\b(?:but|however|although|whereas|and)\b",
             prefix,
+        )
+        local_prefix = clauses[-1]
+
+        if re.search(
+            r"\b(no|not|never|without|neither)\b"
+            r"(?:\W+\w+){0,3}\W*$",
+            local_prefix,
         ):
             return True
 
