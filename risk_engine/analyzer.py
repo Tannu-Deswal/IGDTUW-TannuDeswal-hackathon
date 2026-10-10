@@ -195,7 +195,6 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
             status for event, _, status in event_matches
             if event == event_type
         ]
-
         if all(status == "NEGATED" for status in selected_statuses):
             event_status = "NEGATED"
         elif "UNCERTAIN" in selected_statuses:
@@ -267,4 +266,5 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
                   "summary": f"Rule-based baseline detected {event_type.lower().replace('_', ' ')}; impact estimate is provisional.",
                   "limitations": "Not a trained or calibrated model; verify entity extraction, event class and impact manually."},
     )
+    
     return signal.validate()
