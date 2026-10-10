@@ -113,5 +113,5 @@ The current automated tests check expected behavior on controlled fixtures and i
 
 * Candidate: Tannu Deswal
 * Hackathon: S\&P Global \& Crisil Campus Hackathon 2026
-* Demo video: add the public/unlisted link after recording.
+* Demo video: https://youtu.be/s0adAc4fuoQ
 
