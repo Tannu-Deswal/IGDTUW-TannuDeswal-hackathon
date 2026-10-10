@@ -69,15 +69,9 @@ python run\_engine.py --input path/to/records.json --output data/sample/my\_sign
 
 Input must be a JSON array or JSONL file. Each record requires `record\_id`, `source`, `published\_at` (ISO-8601), and `text`. Optional fields: `source\_id`, `source\_url`, `metadata`.
 
-
-
-\### Interactive dashboard
-
-
+### Interactive dashboard
 
 Install the dashboard dependencies and launch the Streamlit interface:
-
-
 
 ```bash
 
