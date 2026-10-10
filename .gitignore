@@ -9,3 +9,5 @@ venv/
 .DS_Store
 data/runtime/*
 !data/runtime/.gitkeep
+
+data/raw/
