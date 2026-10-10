@@ -39,9 +39,47 @@ EVENT_RULES = {
 }
 
 
-def _matches(text: str, phrases: dict[str, float]) -> list[tuple[str, float]]:
+
+def _phrase_is_negated(text: str, phrase: str) -> bool:
+    """Detect simple negation immediately before a sentiment phrase."""
     low = text.lower()
-    return [(phrase, value) for phrase, value in phrases.items() if phrase in low]
+
+    for match in re.finditer(r"\b" + re.escape(phrase) + r"\b", low):
+        prefix = low[max(0, match.start() - 100):match.start()]
+
+        # A negation cue must occur shortly before this specific phrase.
+        if re.search(
+            r"\b(no|not|never|without|neither)\b(?:\W+\w+){0,5}\W*$",
+            prefix,
+        ):
+            return True
+
+    return False
+
+
+
+def _matches(text: str, phrases: dict[str, float]) -> list[tuple[str, float]]:
+    """Match sentiment phrases, allowing common plural forms, and exclude negated matches."""
+    low = text.lower()
+    matches = []
+
+    for phrase, value in phrases.items():
+        # Allow an optional plural suffix on the final word.
+        words = phrase.split()
+        pattern = r"\b" + r"\s+".join(
+            re.escape(word) for word in words[:-1]
+        )
+
+        final_word = re.escape(words[-1])
+        pattern += (r"\s+" if len(words) > 1 else "")
+        pattern += final_word + r"(?:s|es)?\b"
+
+        if re.search(pattern, low):
+            if not _phrase_is_negated(text, phrase):
+                matches.append((phrase, value))
+
+    return matches
+
 
 
 def _entity_mentions(text: str, metadata: dict[str, Any]) -> list[dict[str, Any]]:

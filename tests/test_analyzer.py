@@ -14,6 +14,36 @@ class TestAnalyzer(unittest.TestCase):
         self.assertEqual(signal.source["source_id"], "source-1")
         self.assertGreaterEqual(signal.impact["score"], 1)
         self.assertLessEqual(signal.impact["score"], 10)
+        
+    
+    def test_negated_investigation_does_not_add_negative_sentiment(self):
+        record = NormalizedRecord(
+            "r_neg_sentiment",
+            "synthetic_news",
+            "2026-10-09T10:00:00Z",
+            "Acme Corporation reported record profits, with no regulatory investigation."
+        )
+        signal = analyze_record(record)
+
+        self.assertEqual(signal.sentiment["label"], "positive")
+        self.assertAlmostEqual(signal.sentiment["score"], 0.9)
+        self.assertEqual(
+            signal.evidence["matched_sentiment_phrases"],
+            ["record profit"],
+        )
+
+    def test_real_losses_remain_negative_after_negated_investigation(self):
+        record = NormalizedRecord(
+            "r_mixed_negation",
+            "synthetic_news",
+            "2026-10-09T10:00:00Z",
+            "No investigation was found, but the company suffered major losses."
+        )
+        signal = analyze_record(record)
+
+        self.assertEqual(signal.sentiment["label"], "negative")
+        self.assertIn("loss", signal.evidence["matched_sentiment_phrases"])
+
 
     def test_positive_earnings(self):
         record = NormalizedRecord("r2", "synthetic_social", "2026-10-09T10:00:00Z",
