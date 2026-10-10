@@ -139,33 +139,35 @@ def analyze_record(record: NormalizedRecord) -> RiskSignal:
     low = text.lower()
 
     
+    
     def phrase_status(phrase: str) -> str:
-        """Detect simple negation or uncertainty near a matched phrase."""
-        match = re.search(re.escape(phrase), low, re.IGNORECASE)
-        if not match:
+        """Detect negation and uncertainty within the phrase's local clause."""
+        matches = list(re.finditer(re.escape(phrase), low, re.IGNORECASE))
+        if not matches:
             return "AFFIRMED"
 
-        prefix = low[max(0, match.start() - 100):match.start()]
+        for match in matches:
+            prefix = low[max(0, match.start() - 100):match.start()]
+            clauses = re.split(
+                r"[,;.!?]|\b(?:but|however|although|whereas|and)\b",
+                prefix,
+            )
+            local_prefix = clauses[-1]
 
-        # Check the full local context for common negation constructions.
-        negation_patterns = [
-            r"\bno\b(?:\W+\w+){0,4}\W*$",
-            r"\bnot\b(?:\W+\w+){0,4}\W*$",
-            r"\bwithout\b(?:\W+\w+){0,4}\W*$",
-            r"\bnever\b(?:\W+\w+){0,4}\W*$",
-            r"\bno\s+(?:evidence|indication|sign)\s+of\b",
-        ]
-
-        for pattern in negation_patterns:
-            if re.search(pattern, prefix):
+            if re.search(
+                r"\b(no|not|never|without|neither)\b"
+                r"(?:\W+\w+){0,3}\W*$",
+                local_prefix,
+            ):
                 return "NEGATED"
-    
-        uncertainty_pattern = (
-            r"\b(may|might|could|possibly|potentially|possible|potential|"
-            r"alleged|allegedly)\b(?:\W+\w+){0,5}\W*$"
-        )
-        if re.search(uncertainty_pattern, prefix):
-            return "UNCERTAIN"
+
+            if re.search(
+                r"\b(may|might|could|possibly|potentially|possible|"
+                r"potential|alleged|allegedly)\b"
+                r"(?:\W+\w+){0,5}\W*$",
+                local_prefix,
+            ):
+                return "UNCERTAIN"
 
         return "AFFIRMED"
 
